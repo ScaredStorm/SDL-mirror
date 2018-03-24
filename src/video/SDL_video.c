@@ -3774,6 +3774,8 @@ SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonid)
 
     if (!messageboxdata) {
         return SDL_InvalidParamError("messageboxdata");
+    } else if (messageboxdata->numbuttons < 0) {
+        return SDL_SetError("Invalid number of buttons");
     }
 
     current_window = SDL_GetKeyboardFocus();
@@ -4001,6 +4003,7 @@ void *SDL_Vulkan_GetVkGetInstanceProcAddr(void)
     }
     if (!_this->vulkan_config.loader_loaded) {
         SDL_SetError("No Vulkan loader has been loaded");
+        return NULL;
     }
     return _this->vulkan_config.vkGetInstanceProcAddr;
 }
